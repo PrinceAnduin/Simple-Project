@@ -15,4 +15,11 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.ajaxjs</groupId>
+  		<artifactId>ajaxjs-web</artifactId>
+  		<version>1.2.0</version>
+  	</dependency>
+  </dependencies>
 </project>
