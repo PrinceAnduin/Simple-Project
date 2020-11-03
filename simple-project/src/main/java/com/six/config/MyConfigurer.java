@@ -12,5 +12,7 @@ public class MyConfigurer implements WebMvcConfigurer{
 		//add view controllers and set the name of the view
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/index.html").setViewName("index");
+		registry.addViewController("/home").setViewName("home");
+		registry.addViewController("/signup.html").setViewName("signup");
 	}
 }
