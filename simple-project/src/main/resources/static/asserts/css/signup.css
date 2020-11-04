@@ -20,9 +20,10 @@ body {
 
 .form-signup {
   width: 100%;
-  max-width: 330px;
+  max-width: 40%;
   padding: 15px;
   margin: 0 auto;
+  margin-top: 15%;
 }
 .form-signup .checkbox {
   font-weight: 400;
