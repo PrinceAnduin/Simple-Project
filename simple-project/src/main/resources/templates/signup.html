@@ -17,8 +17,8 @@
 </head>
 
 <body class="text-center">
-	<form class="form-signup" th:action="@{/signup}" method="post">
-		
+	<form name="signupFrom" class="form-signup" th:action="@{/signupNow}" method="post"
+		th:object="${signupUser}">
 		<img class="mb-4" th:src="@{/asserts/img/logo.svg}"
 			src="asserts/img/bootstrap-solid.svg" alt="" width="216" height="216">
 		<h1 class="h3 mb-3 font-weight-normal">sign up</h1>
@@ -28,52 +28,71 @@
 			<label class="col-sm-2">UserId</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" name="signUpId"
-					placeholder="Id" autofocus="">
+					placeholder="Id" th:field="*{id}" autofocus="">
 			</div>
 		</div>
+		<div class="form-group row error" th:if="${#fields.hasErrors('id')}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:errors="*{id}">error</span>
+		</div>
+
 		<div class="form-group row" style="align-items: center;">
 			<label class="col-sm-2">UserName</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" name="signUpName"
-					placeholder="Name">
+					placeholder="Name" th:field="*{name}">
 			</div>
 		</div>
+		<div class="form-group row error" th:if="${#fields.hasErrors('name')}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:errors="*{name}">error</span>
+		</div>
+		
 		<div class="form-group row" style="align-items: center;">
 			<label class="col-sm-2">Password</label>
 			<div class="col-sm-10">
 				<input type="password" class="form-control" name="signUpPassword"
-					placeholder="Password">
+					placeholder="Password" th:field="*{password}">
 			</div>
 		</div>
+		<div class="form-group row error" th:if="${#fields.hasErrors('password')}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:errors="*{password}">error</span>
+		</div>
+		
 		<div class="form-group row" style="align-items: center;">
 			<label class="col-sm-2">Confirm Password</label>
 			<div class="col-sm-10">
 				<input type="password" class="form-control" name="confirmPassword"
-					placeholder="Password">
+					placeholder="Password" th:field="*{comfirmedPassword}">
 			</div>
 		</div>
+		<div class="form-group row error" th:if="${not #strings.isEmpty(comfirmPassWordError)}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:text="${comfirmPassWordError}">error</span>
+		</div>
+		
 		<div class="form-group row" style="align-items: center;">
 			<label class="col-sm-2">Email</label>
-			<div class="col-sm-6">
+			<div class="col-sm-10">
 				<input type="email" class="form-control" name="signUpEmail"
-					placeholder="Email">
-			</div>
-			<div class="col-sm-4">
-				<button class="btn btn-xs btn-primary btn-block" type="submit">get captcha</button>
+					placeholder="Email" th:field="*{email}">
 			</div>
 		</div>
-		<div class="form-group row" style="align-items: center;">
-			<label class="col-sm-2">Captcha</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" name="captcha"
-					placeholder="Email">
-			</div>
+		<div class="form-group row error" th:if="${#fields.hasErrors('email')}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:errors="*{email}">error</span>
+			
 		</div>
 		<div class="checkbox mb-3">
 			<label> </label>
 		</div>
-		<button class="btn btn-lg btn-primary btn-block" type="submit"
-			th:text="#{login.btn}">Sign up</button>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
 
 		<p class="mt-5 mb-3 text-muted">© 2020-</p>
 		<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
