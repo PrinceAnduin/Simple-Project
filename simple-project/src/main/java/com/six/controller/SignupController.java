@@ -54,6 +54,10 @@ public class SignupController {
 			map.put("comfirmPassWordError", "both the input passwords must be consistent");
 			return "/signup";
 		}
+		if(userMapper.getOne(signupUser.getId()) != null) {
+			map.put("idError", "ID already exists");
+			return "/signup";
+		}
 		this.signupUser = signupUser;
 		//Create a captcha and sent it to user
 		StringBuilder sb = new StringBuilder();

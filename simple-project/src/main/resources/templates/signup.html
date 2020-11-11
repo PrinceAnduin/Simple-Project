@@ -36,6 +36,11 @@
 			<label class="col-sm-2"></label>
 			<span class="col-sm-10" th:errors="*{id}">error</span>
 		</div>
+		<div class="form-group row error" th:if="${not #strings.isEmpty(idError)}"
+			style="align-items: center;">
+			<label class="col-sm-2"></label>
+			<span class="col-sm-10" th:text="${idError}">error</span>
+		</div>
 
 		<div class="form-group row" style="align-items: center;">
 			<label class="col-sm-2">UserName</label>
@@ -87,7 +92,6 @@
 			style="align-items: center;">
 			<label class="col-sm-2"></label>
 			<span class="col-sm-10" th:errors="*{email}">error</span>
-			
 		</div>
 		<div class="checkbox mb-3">
 			<label> </label>
