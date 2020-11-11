@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.six.mapper.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.six.entities.User" >
+        <id column="id" property="id" jdbcType="CHAR" />
+        <result column="name" property="name" jdbcType="CHAR" />
+        <result column="password" property="password" jdbcType="CHAR"/>
+        <result column="email" property="email" jdbcType="CHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        id, name, password, email
+    </sql>
+ 
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM users
+    </select>
+ 
+    <select id="getOne" parameterType="String" resultMap="BaseResultMap" >
+        SELECT 
+       <include refid="Base_Column_List" />
+	   FROM users
+	   WHERE id = #{id}
+    </select>
+ 
+    <insert id="insert" parameterType="com.six.entities.User" >
+       INSERT INTO 
+       		users
+       		(id,name,password,email) 
+       	VALUES
+       		(#{id}, #{name}, #{password}, #{email})
+    </insert>
+    
+    <update id="update" parameterType="com.six.entities.User" >
+       UPDATE 
+       		users
+       SET 
+       	<if test="userName != null">name = #{name},</if>
+       	<if test="passWord != null">password = #{password},</if>
+       	nick_name = #{nickName}
+       WHERE 
+       		id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="String" >
+       DELETE FROM
+       		 users 
+       WHERE 
+       		 id =#{id}
+    </delete>
+ 
+</mapper>

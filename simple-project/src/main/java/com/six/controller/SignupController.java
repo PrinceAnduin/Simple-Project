@@ -13,6 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,15 +23,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.six.entities.SignUpUser;
+import com.six.entities.User;
+import com.six.mapper.UserMapper;
 import com.sun.mail.util.MailSSLSocketFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
+//QQ邮箱授权码：njtrgaulapzdbeac
 @Slf4j
 @Controller
 @RequestMapping("/signupNow")
 public class SignupController {
+	SignUpUser signupUser;
 	private String captcha;
+	@Autowired
+	private UserMapper userMapper;
 	@GetMapping
 	public String getting(Model model) {
 		model.addAttribute("signupUser", new SignUpUser());
@@ -47,6 +54,7 @@ public class SignupController {
 			map.put("comfirmPassWordError", "both the input passwords must be consistent");
 			return "/signup";
 		}
+		this.signupUser = signupUser;
 		//Create a captcha and sent it to user
 		StringBuilder sb = new StringBuilder();
 		for (int count = 0; count < 5; count ++) {
@@ -62,14 +70,21 @@ public class SignupController {
 		captcha = sb.toString();
 		signupUser.setSentCaptcha(captcha);
 		System.out.println(captcha);
-		sendMail(signupUser.getEmail());
+		//sendMail(signupUser.getEmail());
 		System.out.println(signupUser);
 		return "/submitCaptcha";
 	}
 	@PostMapping("/submitCaptcha")
-	public String verify(@ModelAttribute("signupUser")SignUpUser signupUser
+	public String verify(@ModelAttribute("signupUser")SignUpUser s
 						,  Map<String, Object> map) {
-		if (captcha.equals(signupUser.getCaptcha())) {
+		if (captcha.equals(s.getCaptcha())) {
+			User user = new User();
+			user.setId(signupUser.getId());
+			user.setName(signupUser.getName());
+			user.setEmail(signupUser.getEmail());
+			user.setPassword(signupUser.getPassword());
+			System.out.println(signupUser.getEmail());
+			userMapper.insert(user);
 			return "/index";
 		}
 		//if captcha is not true, put the message in map
