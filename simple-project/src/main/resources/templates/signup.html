@@ -16,7 +16,7 @@
 	rel="stylesheet">
 </head>
 
-<body class="text-center">
+<body class="text-center wrap">
 	<form name="signupFrom" class="form-signup" th:action="@{/signupNow}" method="post"
 		th:object="${signupUser}">
 		<img class="mb-4" th:src="@{/asserts/img/logo.svg}"
@@ -97,11 +97,23 @@
 			<label> </label>
 		</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+		
 
 		<p class="mt-5 mb-3 text-muted">© 2020-</p>
 		<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
 		<a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>
 	</form>
-
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
 </body>
 </html>
