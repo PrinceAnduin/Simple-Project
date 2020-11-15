@@ -1,10 +1,122 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <title>dragon hub</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="./chat.css" th:href="@{/asserts/css/chat.css}" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+	<link href="asserts/css/bootstrap.min.css" 
+	th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.css}" 
+	rel="stylesheet">
 </head>
 <body>
-	Welcome! [[${session.loginUser}]]
+    <div class="leftbar">
+        <ul>
+            <li><i class="fas fa-user"></i></li>
+            <li><i class="fas fa-users"></i></li>
+            <li><i class="fas fa-smile"></i></li>
+            <li><i class="fas fa-envelope"></i></li>
+            <li><i class="fas fa-bell"></i></li>
+            <li><i class="fas fa-calendar-alt"></i></li>
+            <li><i class="fas fa-power-off"></i></li>
+        </ul>
+    </div>
+        <div class="chatbox">
+            <div class="chatleft">
+                <div class="top">
+                    <i class="fas fa-bars" style="font-size: 1.4em"></i>
+                    <input type="text" placeholder="search" class="searchInput"> 
+                    <button class="searchbtn"><i class="fas fa-search"> search</i></button>
+                </div>
+                <div class="center">
+                    <ul>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                        <li>
+                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                            <span style="margin-left: 10px;">zzp</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="chatright">
+                <div class="top">
+                    <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                    <span style="margin-left: 20px;">[[${session.loginUser}]]</span>
+                    <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;"></i>
+                </div>
+                <div class="center">
+                    <ul>
+                        <li class="msgstyle">
+                            <img class="ironleft" src="http://placehold.it/40x40">
+                            <p class="msgleft">This message on the left!</p>
+                        </li>
+                        <li class="msgstyle">
+                            <img class="ironright" src="http://placehold.it/40x40">
+                            <p class="msgright">This message on the right!</p>
+                        </li>
+                        <li class="msgstyle">
+                            <img class="ironleft" src="http://placehold.it/40x40">
+                            <p class="msgleft">This is a long message! This is a long message! This is a long left message!</p>
+                        </li>
+                        <li class="msgstyle">
+                            <img class="ironright" src="http://placehold.it/40x40">
+                            <p class="msgright">This message on the right!</p>
+                        </li>
+                        <li class="msgstyle">
+                            <img class="ironleft" src="http://placehold.it/40x40">
+                            <p class="msgleft">This is a long message! This is a long message! This is a long left message!</p>
+                        </li>
+                    </ul>
+                </div>
+                <form class="footer">
+                    <div class="form-group">
+    				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
+  					</div>
+                	<button class="sendbtn">发送</button>
+                </form>
+            </div>
+        </div>
 </body>
 </html>
