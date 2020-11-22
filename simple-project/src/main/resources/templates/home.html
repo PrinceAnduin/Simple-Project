@@ -24,59 +24,24 @@
             <div class="chatleft">
                 <div class="top">
                     <i class="fas fa-bars" style="font-size: 1.4em"></i>
-                    <input type="text" placeholder="search" class="searchInput"> 
-                    <button class="searchbtn"><i class="fas fa-search"> search</i></button>
+                    [[${searchedId}]]
+                    <form th:action="@{/friend/search}" method="post">
+                    	<input type="text" placeholder="search" class="searchInput" th:value="${userId}" name="userId"> 
+                    	<button class="searchbtn" type="submit" value="saerch"><i class="fas fa-search"> search</i></button>
+                	</form>
                 </div>
                 <div class="center">
                     <ul>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
-                        <li>
-                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
-                            <span style="margin-left: 10px;">zzp</span>
-                        </li>
+                    	<li th:if = "${searchedUser != null}">
+                    		<img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                    		<span style="margin-left: 10px;">[[${searchedUser.id}]]</span>
+           					<a class="btn btn-sm btn-primary" th:href="@{/friend/add/}+${searchedUser.id}">add</a>
+                    	</li>
+                    	<li th:if = "${searchedUser == null}" th:each="friend:${friends}" th:onclick="javascript:document.getElementById([[${friend.id}]]).click()">
+                    		<a th:id="${friend.id}" style="display: hidden" th:href="@{/home/}+${friend.id}"></a>
+                    		<img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                    		<span style="margin-left: 10px;">[[${friend.id}]]</span>
+                    	</li>
                     </ul>
                 </div>
             </div>
@@ -88,31 +53,15 @@
                 </div>
                 <div class="center">
                     <ul>
-                        <li class="msgstyle">
-                            <img class="ironleft" src="http://placehold.it/40x40">
-                            <p class="msgleft">This message on the left!</p>
-                        </li>
-                        <li class="msgstyle">
-                            <img class="ironright" src="http://placehold.it/40x40">
-                            <p class="msgright">This message on the right!</p>
-                        </li>
-                        <li class="msgstyle">
-                            <img class="ironleft" src="http://placehold.it/40x40">
-                            <p class="msgleft">This is a long message! This is a long message! This is a long left message!</p>
-                        </li>
-                        <li class="msgstyle">
-                            <img class="ironright" src="http://placehold.it/40x40">
-                            <p class="msgright">This message on the right!</p>
-                        </li>
-                        <li class="msgstyle">
-                            <img class="ironleft" src="http://placehold.it/40x40">
-                            <p class="msgleft">This is a long message! This is a long message! This is a long left message!</p>
-                        </li>
+                    	<li th:each="message:${messages}"  class="msgstyle">
+                    		<img class="ironleft" th:class="${message.sender==session.loginUser}?'ironright':'ironleft'" src="http://placehold.it/40x40">
+                            <p class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" >[[${message.msg}]]</p>
+                    	</li>
                     </ul>
                 </div>
-                <form class="footer">
+                <form th:if="${chattingFriend!=null}" th:action="@{/home/}+${chattingFriend}" method="post" class="footer">
                     <div class="form-group">
-    				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
+    				  <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
   					</div>
                 	<button class="sendbtn">发送</button>
                 </form>
