@@ -26,7 +26,7 @@ public class loginController {
 		User loginUser = userMapper.getOne(userId);
 		if (userId.equals("admin") && password.equals("123456")) {
 			session.setAttribute("loginUser", "admin");
-			return "redirect:home";
+			return "redirect:manager";
 		} else if (loginUser != null && loginUser.getPassword().equals(password)){
 			session.setAttribute("loginUser", loginUser.getId());
 			return "redirect:home";

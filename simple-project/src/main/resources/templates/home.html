@@ -25,24 +25,49 @@
                 <div class="top">
                     <i class="fas fa-bars" style="font-size: 1.4em"></i>
                     [[${searchedId}]]
-                    <form th:action="@{/friend/search}" method="post">
-                    	<input type="text" placeholder="search" class="searchInput" th:value="${userId}" name="userId"> 
-                    	<button class="searchbtn" type="submit" value="saerch"><i class="fas fa-search"> search</i></button>
+                    <form th:action="@{/home/search}" method="post">
+                    	<div class="form-group row">
+                    		<input class="searchInput col-sm-7" type="text" placeholder="UserID or group Name" th:value="${searchString}" name="searchString"> 
+                    		<button class="searchbtn col-sm-3" type="submit" value="saerch"><i class="fas fa-search"> search</i></button>
+                		</div>
                 	</form>
                 </div>
                 <div class="center">
+                	<p class="listTitle">friends</p>
                     <ul>
                     	<li th:if = "${searchedUser != null}">
                     		<img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
                     		<span style="margin-left: 10px;">[[${searchedUser.id}]]</span>
            					<a class="btn btn-sm btn-primary" th:href="@{/friend/add/}+${searchedUser.id}">add</a>
                     	</li>
-                    	<li th:if = "${searchedUser == null}" th:each="friend:${friends}" th:onclick="javascript:document.getElementById([[${friend.id}]]).click()">
-                    		<a th:id="${friend.id}" style="display: hidden" th:href="@{/home/}+${friend.id}"></a>
-                    		<img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                    	<li th:class="${chattingFriend==friend.id}?'choosedFriend':''" th:if = "${searchedUser == null}" th:each="friend:${friends}" th:onclick="javascript:document.getElementById([[${friend.id}]]).click()">
+                    		<a th:id="${friend.id}" style="display: hidden" th:href="@{/friend/}+${friend.id}"></a>
+                    		<img style="border-radius: 20px; vertical-align: middle; width: 20px; height: 20px;" th:src="@{/asserts/img/user.jpg}">
                     		<span style="margin-left: 10px;">[[${friend.id}]]</span>
                     	</li>
                     </ul>
+                    
+                    <p class="listTitle">groups</p>
+                    <ul>
+                    	<li th:each="group:${searchedGroup}">
+                    		<img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                    		<span style="margin-left: 10px;">[[${group.id}]]</span>
+           					<a class="btn btn-sm btn-primary" th:href="@{/group/add/}+${group.id}">add</a>
+                    	</li>
+                    	<li th:class="${chattingGroup==group.id}?'choosedGroup':''" th:if = "${searchedUser == null}" th:each="group:${groups}" th:onclick="javascript:document.getElementById('group[[${group.id}]]').click()">
+                    		<a th:id="${'group'+group.id}" style="display: hidden" th:href="@{/group/}+${group.id}"></a>
+                    		<img style="border-radius: 20px; vertical-align: middle; width: 20px; height: 20px;" th:src="@{/asserts/img/user.jpg}">
+                    		<span style="margin-left: 10px;">[[${group.groupName}]](group ID: [[${group.id}]])</span>
+                    	</li>
+                    </ul>
+                    
+                    <form style="margin: 10%" th:action="@{/group/new}" method="post">
+                    	<div class="form-group row">
+                    		<input class="searchInput col-sm-7" type="text" placeholder="Group Name" th:value="${searchString}" name="groupName"> 
+                    		<button class="searchbtn col-sm-3" type="submit" value="saerch"><i class="fas fa-search">Create</i></button>
+                		</div>
+                	</form>
+                	
                 </div>
             </div>
             <div class="chatright">
@@ -53,13 +78,23 @@
                 </div>
                 <div class="center">
                     <ul>
-                    	<li th:each="message:${messages}"  class="msgstyle">
-                    		<img class="ironleft" th:class="${message.sender==session.loginUser}?'ironright':'ironleft'" src="http://placehold.it/40x40">
-                            <p class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" >[[${message.msg}]]</p>
+                    	<li th:style="${message.sender!=session.loginUser && chattingGroup != null}?'display: flex':''" th:each="message:${messages}"  class="msgstyle">
+                    		<img style="width:40px; height: 40px;" class="ironleft userIron" th:class="${message.sender==session.loginUser}?'ironright':'ironleft'" th:src="@{/asserts/img/user.jpg}">
+                            <div th:style="${message.sender!=session.loginUser && chattingGroup != null}?'display: flex; flex-direction: column;':''">
+                            	<h6 th:if="${message.sender!=session.loginUser && chattingGroup != null}">[[${message.sender}]]</h6>
+                            	<p  class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" >[[${message.msg}]]</p>
+                    		</div>
                     	</li>
                     </ul>
                 </div>
-                <form th:if="${chattingFriend!=null}" th:action="@{/home/}+${chattingFriend}" method="post" class="footer">
+                <form th:if="${chattingFriend!=null}" th:action="@{/friend/}+${chattingFriend}" method="post" class="footer">
+                    <div class="form-group">
+    				  <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
+  					</div>
+                	<button class="sendbtn">发送</button>
+                </form>
+                
+                <form th:if="${chattingGroup!=null}" th:action="@{/group/}+${chattingGroup}" method="post" class="footer">
                     <div class="form-group">
     				  <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
   					</div>

@@ -3,6 +3,7 @@ package com.six.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.six.entities.User;
 @Mapper
@@ -15,5 +16,5 @@ public interface UserMapper {
  
 	void update(User user);
  
-	void delete(String id);
+	void delete(@Param("id")String id);
 }

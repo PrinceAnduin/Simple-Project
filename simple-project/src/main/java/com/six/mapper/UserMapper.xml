@@ -44,11 +44,27 @@
        		id = #{id}
     </update>
     
-    <delete id="delete" parameterType="String" >
+    <delete id="delete" >
+       DELETE FROM
+       		 friendship
+       WHERE
+       		 friend1 =#{id} or friend2 =#{id};
+       DELETE FROM
+       		 messages
+       WHERE
+       		 sender =#{id} or receiver =#{id};
+       DELETE FROM
+       		 groupMessages
+       WHERE
+       		 sender =#{id};
+       DELETE FROM
+       		 relation
+       WHERE
+       		 userId =#{id};
        DELETE FROM
        		 users 
        WHERE 
-       		 id =#{id}
+       		 id =#{id};
     </delete>
  
 </mapper>
