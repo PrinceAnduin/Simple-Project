@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.six.mapper.FriendshipMapper" >
+    <resultMap id="BaseResultMap" type="com.six.entities.User" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        users.id, name, password, email
+    </sql>
+ 
+    <select id="getFriends" resultMap="BaseResultMap">
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM users, friendship
+	   WHERE (friendship.friend1 = #{id} and friendship.friend2 = users.id) or (friendship.friend2 = #{id} and friendship.friend1 = users.id)
+    </select>
+ 
+    <select id="getFriend" resultMap="BaseResultMap" >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM users, friendship
+	   WHERE (users.id = friendship.friend2 and friendship.friend1 = #{id1} and friendship.friend2 = #{id2})
+	   	OR (users.id = friendship.friend1 and friendship.friend2 = #{id1} and friendship.friend1 = #{id2})
+    </select>
+ 
+    <insert id="addFriend">
+       INSERT INTO 
+       		friendship
+       		(friend1, friend2) 
+       	VALUES
+       		(#{id1}, #{id2})
+    </insert>
+    
+    <delete id="deleteFriend">
+       DELETE FROM
+       		 users 
+       WHERE 
+       		 (friend1 =#{friend1} and friend2 = #{friend2}) or (friend1 =#{friend2} and friend2 = #{friend1})
+    </delete>
+ 
+</mapper>

@@ -11,10 +11,14 @@ public interface UserMapper {
 	List<User> getAll();
 	
 	User getOne(String id);
+	
+	User searchOne(String id);
  
 	void insert(User user);
  
 	void update(User user);
  
 	void delete(@Param("id")String id);
+	
+	void setVisiable(@Param("id")String id);
 }

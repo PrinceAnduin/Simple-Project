@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.six.mapper.GroupMapper" >
+    <resultMap id="BaseResultMap" type="com.six.entities.GroupMessage" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="groupId" property="groupId" jdbcType="INTEGER" />
+        <result column="msg" property="msg" jdbcType="VARCHAR" />
+        <result column="sender" property="sender" jdbcType="VARCHAR" />
+        <result column="sendDay" property="sendDay" jdbcType="VARCHAR" />
+        <result column="img" property="img" jdbcType="BOOLEAN" />
+    </resultMap>
+    
+    <resultMap id="GroupMap" type="com.six.entities.UserGroup" >
+		<id column="groupId" property="groupId" jdbcType="INTEGER" />
+		<result column="groupName" property="groupName" jdbcType="VARCHAR" />
+		<result column="beEite" property="beEite" jdbcType="BOOLEAN" />
+    </resultMap>
+    
+    <sql id="Group_Message_List" >
+        id, groupId, msg, sender, sendDay, img
+    </sql>
+    
+    <sql id="Group_List" >
+        id, groupName
+    </sql>
+    
+    <sql id="Group_List_Eite" >
+        id, groupName, beEite
+    </sql>
+ 
+    <select id="getMessages" resultMap="BaseResultMap" >
+       SELECT 
+       <include refid="Group_Message_List" />
+	   FROM groupMessages
+	   WHERE groupId = #{id}
+    </select>
+    
+    <insert id="addGroup" parameterType="com.six.entities.UserGroup">
+       INSERT INTO 
+       		userGroups
+       		(groupName) 
+       	VALUES
+       		(#{groupName})
+    </insert>
+    
+    <insert id="addUserToGroup">
+       INSERT INTO 
+       		relation
+       		(groupId, userId) 
+       	VALUES
+       		(#{groupId}, #{userId})
+    </insert>
+    
+    <select id="getAll" resultMap="GroupMap" >
+       SELECT 
+       *
+	   FROM userGroups
+    </select>
+    
+    <select id="getGroups" resultMap="GroupMap" >
+       SELECT 
+       <include refid="Group_List_Eite" />
+	   FROM userGroups, relation
+	   WHERE (userId = #{userId} and relation.groupId = userGroups.id)
+    </select>
+    
+    <update id="eiteAll">
+       UPDATE
+       		relation
+       SET
+       		beEite = true
+       WHERE
+       		groupId = #{id};
+    </update>
+    
+    <update id="cancelEite">
+       UPDATE
+       		relation
+       SET
+       		beEite = false
+       WHERE
+       		groupId = #{groupId} and userId = #{userId}
+    </update>
+    
+    <select id="count" resultType="java.lang.Integer">
+       SELECT 
+       MAX(id)
+	   FROM userGroups
+    </select>
+    
+    <select id="searchGroups" resultMap="GroupMap" >
+       SELECT 
+       <include refid="Group_List" />
+	   FROM userGroups
+	   WHERE groupName = #{groupName}
+    </select>
+ 	
+    <insert id="sendMessage" parameterType="com.six.entities.GroupMessage">
+       INSERT INTO 
+       		groupMessages
+       		(groupId, sender, msg, sendDay) 
+       	VALUES
+       		(#{groupId}, #{sender}, #{msg}, #{sendDay})
+    </insert>
+</mapper>

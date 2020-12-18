@@ -24,6 +24,13 @@
 	   FROM users
 	   WHERE id = #{id}
     </select>
+    
+    <select id="searchOne" parameterType="String" resultMap="BaseResultMap" >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM users
+	   WHERE id = #{id} and visiable = true;
+    </select>
  
     <insert id="insert" parameterType="com.six.entities.User" >
        INSERT INTO 
@@ -40,6 +47,15 @@
        	<if test="userName != null">name = #{name},</if>
        	<if test="passWord != null">password = #{password},</if>
        	nick_name = #{nickName}
+       WHERE 
+       		id = #{id}
+    </update>
+    
+    <update id="setVisiable" parameterType="com.six.entities.User" >
+       UPDATE 
+       		users
+       SET 
+       	visiable = false
        WHERE 
        		id = #{id}
     </update>

@@ -7,4 +7,5 @@ public class UserGroup
 {
 	int id;
 	String groupName;
+	boolean beEite;
 }

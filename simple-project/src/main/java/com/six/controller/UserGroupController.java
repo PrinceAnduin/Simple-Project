@@ -48,6 +48,7 @@ public class UserGroupController {
 	@GetMapping("/{id}")
 	public String friendChat(@PathVariable("id") int id, HttpSession session, Model model) {
 		String nowId = (String) session.getAttribute("loginUser");
+		groupMapper.cancelEite(id, nowId);
 		List<User> friends = friendshipMapper.getFriends(nowId);
 		List<UserGroup> groups = groupMapper.getGroups(nowId);
 		model.addAttribute("friends", friends);
@@ -63,7 +64,10 @@ public class UserGroupController {
 	public String sendMessage(@PathVariable("id") int id, @RequestParam("msg") String msg
 					, HttpSession session, Model model) {
 		String nowId = (String) session.getAttribute("loginUser");
-		GroupMessage message = new GroupMessage(0, id, msg, nowId, new Date());
+		GroupMessage message = new GroupMessage(0, id, msg, nowId, new Date(), false);
+		if (msg.indexOf("@all") != -1) {
+			groupMapper.eiteAll(id);
+		}
 		groupMapper.sendMessage(message);
 		return "redirect:/group/"+id;
 	}

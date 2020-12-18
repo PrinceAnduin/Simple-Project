@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>dragon hub</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="multipart/form-data; charset=UTF-8" />
     <link href="./chat.css" th:href="@{/asserts/css/chat.css}" rel="stylesheet">
     <!-- Bootstrap core CSS -->
 	<link href="asserts/css/bootstrap.min.css" 
@@ -58,6 +58,7 @@
                     		<a th:id="${'group'+group.id}" style="display: hidden" th:href="@{/group/}+${group.id}"></a>
                     		<img style="border-radius: 20px; vertical-align: middle; width: 20px; height: 20px;" th:src="@{/asserts/img/user.jpg}">
                     		<span style="margin-left: 10px;">[[${group.groupName}]](group ID: [[${group.id}]])</span>
+                    		<i th:if="${group.beEite}" style="width:10px;height:10px;border-radius:50%;background-color:red;display: block"></i>
                     	</li>
                     </ul>
                     
@@ -74,6 +75,7 @@
                 <div class="top">
                     <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
                     <span style="margin-left: 20px;">[[${session.loginUser}]]</span>
+                    <a href = "/home/setVisiable">set visiable</a>
                     <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;"></i>
                 </div>
                 <div class="center">
@@ -82,21 +84,25 @@
                     		<img style="width:40px; height: 40px;" class="ironleft userIron" th:class="${message.sender==session.loginUser}?'ironright':'ironleft'" th:src="@{/asserts/img/user.jpg}">
                             <div th:style="${message.sender!=session.loginUser && chattingGroup != null}?'display: flex; flex-direction: column;':''">
                             	<h6 th:if="${message.sender!=session.loginUser && chattingGroup != null}">[[${message.sender}]]</h6>
-                            	<p  class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" >[[${message.msg}]]</p>
+                            	<p th:if="${!message.img}" class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" >[[${message.msg}]]</p>
+                    			<img th:if="${message.img}" class="msgleft"  th:class="${message.sender==session.loginUser}?'msgright':'msgleft'" src="" th:src="${message.msg}">
                     		</div>
                     	</li>
                     </ul>
                 </div>
-                <form th:if="${chattingFriend!=null}" th:action="@{/friend/}+${chattingFriend}" method="post" class="footer">
+                <form th:if="${chattingFriend!=null}" th:action="@{/friend/}+${chattingFriend}" method="post" class="footer" enctype="multipart/form-data">
                     <div class="form-group">
     				  <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
+  					  <input id="file" name="file" type="file" accept="image/*" multiple="multiple"></input>
   					</div>
-                	<button class="sendbtn">发送</button>
+                	<button class="sendbtn">send</button>
+                	
                 </form>
-                
-                <form th:if="${chattingGroup!=null}" th:action="@{/group/}+${chattingGroup}" method="post" class="footer">
+                <a th:if="${chattingFriend!=null}" class="sendbtn" href="/home">remind</a>
+                <form th:if="${chattingGroup!=null}" th:action="@{/group/}+${chattingGroup}" method="post" class="footer" enctype="multipart/form-data">
                     <div class="form-group">
     				  <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Type your message"></textarea>
+  					  <input class="sendbtn" name="file" type="file" accept="image/*" multiple="multiple"></input>
   					</div>
                 	<button class="sendbtn">发送</button>
                 </form>

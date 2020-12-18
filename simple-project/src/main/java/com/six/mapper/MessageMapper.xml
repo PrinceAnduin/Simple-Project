@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.six.mapper.MessageMapper" >
+    <resultMap id="BaseResultMap" type="com.six.entities.Message" >
+        <id column="msg" property="msg" jdbcType="VARCHAR" />
+        <result column="sender" property="sender" jdbcType="VARCHAR" />
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="sendDay" property="sendDay" jdbcType="VARCHAR" />
+        <result column="img" property="img" jdbcType="BOOLEAN" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        msg, sender, receiver, sendDay, img
+    </sql>
+ 
+    <select id="getMessages" resultMap="BaseResultMap" >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM messages
+	   WHERE (sender = #{id1} and receiver = #{id2}) OR (sender = #{id2} and receiver = #{id1})
+    </select>
+ 
+    <insert id="sendMessage" parameterType="com.six.entities.Message">
+       INSERT INTO 
+       		messages
+       		(sender, receiver, msg, sendDay, img) 
+       	VALUES
+       		(#{sender}, #{receiver}, #{msg}, #{sendDay}, #{img})
+    </insert>
+</mapper>
